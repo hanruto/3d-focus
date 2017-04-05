@@ -1,0 +1,142 @@
+$l:80px;
+$rows:4;
+$cols:4;
+$w:$l*$rows;
+$h:$l*$cols;
+$timing:linear;
+$interval:0.5s;
+$curb-num:$rows*$cols;
+$delay:0.1s;
+
+body{
+    background: #39f;
+}
+.curb-group{
+    width:$w;
+    height:$h;
+    display: flex;
+    flex-wrap: wrap;
+    transform-style: preserve-3d;
+    -webkit-perspective: 500px;
+            perspective: 500px;
+    margin:3em auto;
+}
+.mark{
+    width:$w;
+    height:$h;
+    position:absolute;
+    top:0;
+    left:0;
+    display: none;
+    transform: translateZ(40px);
+    background-size:100% 100%;
+}
+.curb{
+    $c : ($l);
+    width:$c;
+    height:$c;
+    // margin-left:20px;
+    // margin-top:20px;
+    position: relative;
+    text-align: center;
+    line-height: $c;
+    transform-style: preserve-3d;
+    transition:all $timing 0.1s;
+
+    animation-duration: $interval;
+    animation-timing-function: $timing;
+    animation-fill-mode:forwards; 
+    .side{
+        position: absolute;
+        width:$c;
+        height:$c;
+        background-size:$w $h;
+        &.front{
+            transform: translateZ($c/2);
+        }
+        &.back{
+            transform: translateZ(-$c/2);
+        }
+        &.left{
+            transform: rotateY(-90deg) translateZ($c/2);
+        }
+        &.right{
+            transform: rotateY(90deg) translateZ($c/2);
+        }
+        &.top{
+            transform: rotateX(-90deg) translateZ($c/2);
+        }
+        &.bottom{
+            transform: rotateX(90deg) translateZ($c/2);
+        }
+    }
+    @for $i from 1 through $curb-num {
+        &:nth-child(#{$i}){
+            animation-delay: $i*$delay;
+            .side{
+                background-position: (-1*($i - 1)*$l) -1*ceil($i/4)*$l+$l;
+            }
+        }
+    }
+    &.up{
+        animation-name: rotate-up;
+    }
+    &.down{
+        animation-name:rotate-down;
+    }
+    &.left{
+        animation-name:rotate-left;
+    }
+    &.right{
+        animation-name:rotate-right;
+    }
+}
+@keyframes rotate-up{
+    0%{
+        transform:rotateX(0deg);
+    }
+    50%{
+        transform:rotateX(45deg);
+    }
+    100%{
+        transform:rotateX(90deg);
+    }
+}
+@keyframes rotate-left{
+    0%{
+        transform:rotateY(0deg);
+    }
+    
+    100%{
+        transform:rotateY(90deg);
+    }
+}
+@keyframes rotate-down{
+    0%{
+        transform: rotateX(0deg);
+    }
+    100%{
+        transform: rotateX(-90deg);
+    }
+}
+@keyframes rotate-right{
+    0%{
+        transform: rotateY(0deg);
+    }
+    100%{
+        transform: rotateY(-90deg);
+    }
+}
+.curb-control{
+    .control{
+        top:46%;
+        position:absolute;
+
+    }
+    .curb-l{  
+        left:-50px;
+    }
+    .curb-r{
+        right:-50px;
+    }
+}
