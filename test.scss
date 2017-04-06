@@ -1,10 +1,10 @@
-$l:80px;
-$rows:4;
-$cols:4;
+$l:60px;
+$rows:5;
+$cols:5;
 $w:$l*$rows;
 $h:$l*$cols;
 $timing:linear;
-$interval:0.5s;
+$interval:0.8s;
 $curb-num:$rows*$cols;
 $delay:0.1s;
 
@@ -35,14 +35,11 @@ body{
     $c : ($l);
     width:$c;
     height:$c;
-    // margin-left:20px;
-    // margin-top:20px;
     position: relative;
     text-align: center;
     line-height: $c;
     transform-style: preserve-3d;
     transition:all $timing 0.1s;
-
     animation-duration: $interval;
     animation-timing-function: $timing;
     animation-fill-mode:forwards; 
@@ -74,7 +71,7 @@ body{
         &:nth-child(#{$i}){
             animation-delay: $i*$delay;
             .side{
-                background-position: (-1*($i - 1)*$l) -1*ceil($i/4)*$l+$l;
+                background-position: (-1*($i - 1)*$l) -1*ceil($i/$rows)*$l+$l;
             }
         }
     }
@@ -91,40 +88,60 @@ body{
         animation-name:rotate-right;
     }
 }
-@keyframes rotate-up{
-    0%{
-        transform:rotateX(0deg);
+@keyframes rotate-up {
+    0% {
+        transform:scale(1) rotatex(0);
     }
-    50%{
-        transform:rotateX(45deg);
+    40% {
+        transform:scale(0.7) translatez($l) rotatex(0);
     }
-    100%{
-        transform:rotateX(90deg);
+    70% {
+        transform:scale(0.7)translatez($l)rotatex(90deg);
     }
-}
-@keyframes rotate-left{
-    0%{
-        transform:rotateY(0deg);
-    }
-    
-    100%{
-        transform:rotateY(90deg);
+    100% {
+        transform:scale(1) rotatex(90deg);
     }
 }
-@keyframes rotate-down{
-    0%{
-        transform: rotateX(0deg);
+@keyframes rotate-down {
+    0% {
+        transform:scale(1) rotatex(0);
     }
-    100%{
-        transform: rotateX(-90deg);
+    40% {
+        transform:scale(0.7) translatez($l) rotatex(0);
+    }
+    70% {
+        transform:scale(0.7)translatez($l)rotatex(-90deg);
+    }
+    100% {
+        transform:scale(1) rotatex(90deg);
     }
 }
-@keyframes rotate-right{
-    0%{
-        transform: rotateY(0deg);
+@keyframes rotate-left {
+    0% {
+        transform:scale(1) rotatex(0);
     }
-    100%{
-        transform: rotateY(-90deg);
+    40% {
+        transform:scale(0.7) translatez($l) rotateY(0);
+    }
+    70% {
+        transform:scale(0.7)translatez($l)rotateY(90deg);
+    }
+    100% {
+        transform:scale(1) rotatex(90deg);
+    }
+}
+@keyframes rotate-right {
+    0% {
+        transform:scale(1) rotatex(0);
+    }
+    40% {
+        transform:scale(0.7) translatez($l) rotateY(0);
+    }
+    70% {
+        transform:scale(0.7)translatez($l)rotateY(-90deg);
+    }
+    100% {
+        transform:scale(1) rotatex(90deg);
     }
 }
 .curb-control{

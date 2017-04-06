@@ -1,14 +1,7 @@
 
 (function(win,doc){
-    var delayTime = 2000;
+    var delayTime = 3200;
     var animateStatus = 'stop';
-    var imgDatas = [
-        './img/curb-1.jpeg',
-        './img/curb-2.jpeg',
-        './img/curb-3.jpeg',
-        './img/curb-4.jpeg',
-        './img/curb-5.jpeg'
-    ]
     function query(sel,bool,el){
         if(!el){var el = doc}
         if(!bool){
@@ -32,9 +25,9 @@
             case 3:return 'right';
         }
     }
-
     // 游戏开始
-    function start(){
+    function start(imgDatas){
+        var imgDatas = imgDatas;
         var i = 0;
         var curb_group = query('.curb-group',true);
         var curb = query('.curb');
@@ -81,10 +74,21 @@
                 animateStatus='stop'
             },delayTime)
         }
-        each(side,function(el){
-            // show front , hidden other //
-            el.style.backgroundImage = 'url('+imgDatas[i]+')';
-        })
+
+        function init(){
+            // 初始化所有图片
+            each(side,function(el){
+                // show front , hidden other //
+                el.style.backgroundImage = 'url('+imgDatas[i]+')';
+            })
+            imgDatas.forEach(function(item){
+                var img = document.createElement('img') ;
+                img.style.display = 'none' ;
+                img.src = item ;
+                doc.body.appendChild(img);
+            })
+            
+        }
         function next(){
             i++;
             i = i%5
@@ -96,16 +100,28 @@
             render()
         }
         return {
+            init:init,
             next:next,
             prev:prev
         }
     }
     // 开始轮播图
-    var game = start();
-    query('.curb-r',true).addEventListener('click',function(){
-        animateStatus==='stop' && game.next()
+    win.addEventListener('load',function(){
+        var imgDatas = [
+            './img/curb-1.jpeg',
+            './img/curb-2.jpeg',
+            './img/curb-3.jpeg',
+            './img/curb-4.jpeg',
+            './img/curb-5.jpeg'
+        ]
+        var game = start(imgDatas);
+        game.init()
+        query('.curb-r',true).addEventListener('click',function(){
+            animateStatus==='stop' && game.next()
+        })
+        query('.curb-l',true).addEventListener('click',function(){
+            animateStatus==='stop' && game.prev()
+        })
     })
-    query('.curb-l',true).addEventListener('click',function(){
-        animateStatus==='stop' && game.prev()
-    })
+    
 })(window,document)
